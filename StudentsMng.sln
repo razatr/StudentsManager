@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsManager", "StudentsMng\StudentsManager.csproj", "{38D1C236-6521-4210-A30B-C04FD68E7CA7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{150C9422-484F-4F14-891D-DA236AC18C32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsManager.DAL", "StudentsManager.DAL\StudentsManager.DAL.csproj", "{686AD758-F88C-4CE5-833B-9CF15CDFAD71}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{38D1C236-6521-4210-A30B-C04FD68E7CA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38D1C236-6521-4210-A30B-C04FD68E7CA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38D1C236-6521-4210-A30B-C04FD68E7CA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38D1C236-6521-4210-A30B-C04FD68E7CA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{686AD758-F88C-4CE5-833B-9CF15CDFAD71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{686AD758-F88C-4CE5-833B-9CF15CDFAD71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{686AD758-F88C-4CE5-833B-9CF15CDFAD71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{686AD758-F88C-4CE5-833B-9CF15CDFAD71}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{686AD758-F88C-4CE5-833B-9CF15CDFAD71} = {150C9422-484F-4F14-891D-DA236AC18C32}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B3D7CC1F-0A5E-462F-81FD-D2CFC08FE1BF}
+	EndGlobalSection
+EndGlobal

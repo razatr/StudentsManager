@@ -1,0 +1,11 @@
+﻿@using StudentsManager.Models;
+@model IEnumerable<StudentsViewModel>
+
+<div>
+    <ol>
+        @foreach (var stud in Model)
+        {
+            <li>@stud.Name @stud.LastName @stud.Patronymic</li>
+        }
+    </ol>
+</div>

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using StudentsManager.DAL.Context;
+﻿using StudentsManager.DAL.Context;
 using StudentsManager.DAL.Entities;
 
 namespace StudentsManager.Models;
@@ -8,15 +7,22 @@ public static class SeedData
 {
     public static async Task Initialize(IServiceProvider serviceProvider)
     {
-        using var context = new StudentsDB(
-            serviceProvider.GetRequiredService<
-                    DbContextOptions<StudentsDB>>());
-        
-        // Look for any Students.
+        using var context = serviceProvider.GetRequiredService<StudentsDB>();
+
+        await context.Database.EnsureDeletedAsync();
         await context.Database.EnsureCreatedAsync();
+        
+        InitStudents(context);
+        InitGroups(context);
+
+        await context.SaveChangesAsync();
+    }
+
+    private static void InitStudents(StudentsDB context)
+    {
         if (context.Students.Any())
         {
-            return;   // DB has been seeded
+            return;
         }
 
         context.Students.AddRange(
@@ -45,6 +51,10 @@ public static class SeedData
                 Patronymic = "Александрович"
             }
         );
-        await context.SaveChangesAsync();
+    }
+
+    private static void InitGroups(StudentsDB context)
+    {
+        // TODO!!!
     }
 }

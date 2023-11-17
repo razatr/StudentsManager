@@ -1,8 +1,6 @@
-﻿
-namespace StudentsManager.DAL.Entities.Base
+﻿namespace StudentsManager.DAL.Entities.Base;
+
+public abstract class NamedEntity : Entity
 {
-    public abstract class NamedEntity : Entity
-    {
-        public string Name { get; set; } = string.Empty;
-    }
+    public string Name { get; set; } = string.Empty;
 }

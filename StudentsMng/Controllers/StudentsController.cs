@@ -1,30 +1,38 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentsManager.DAL.Context;
 using StudentsManager.DAL.Entities;
-using StudentsManager.Models;
+using StudentsManager.ViewModels;
 
 namespace StudentsManagerCoop.Controllers
 {
     public class StudentsController : Controller
     {
-        public StudentsDB db { get; set; }
+        public StudentsDB Db { get; set; }
         public StudentsController(StudentsDB db) 
         {
-            this.db = db;
+            Db = db;
         }
 
-        private Student? GetStudent(int id)
+        private StudentsViewModel Convert(Student student)
         {
-            return id == 0 ?
-                new Student()
-                : db.Students.FirstOrDefault(stud => stud.Id == id);
+            return student == null ?
+                new StudentsViewModel()
+                : new StudentsViewModel(student);
         }
 
-        // Тоже временная функция
-        private IEnumerable<StudentsViewModel> GetStudents()
+        private Student GetStudent(int id)
         {
-            // return Provider.GetStudents();
-            return db.Students
+            if (id == 0) {
+                return new Student();
+            }
+            
+            var student = Db.Students.FirstOrDefault(stud => stud.Id == id);
+            return student ?? new Student();
+        }
+
+        private IEnumerable<StudentsViewModel> GetStudentsList()
+        {
+            return Db.Students
                 .OrderBy(stud => stud.Id)
                 .Select(stud => new StudentsViewModel(stud));
         }
@@ -32,16 +40,14 @@ namespace StudentsManagerCoop.Controllers
 
         public IActionResult Index()
         {
-            var studList = GetStudents();
+            var studList = GetStudentsList();
             return View(studList);
         }
 
         public IActionResult Edit(int id)
         {
             var student = GetStudent(id);
-            var studentView = student == null ?
-                new StudentsViewModel()
-                : new StudentsViewModel(student);
+            var studentView = Convert(student);
 
             return View(studentView);
         }
@@ -55,9 +61,9 @@ namespace StudentsManagerCoop.Controllers
                 Name = studView.Name,
                 Patronymic = studView.Patronymic
             };
-            db.Students.Add(stud);
-            db.SaveChanges();
+            Db.Students.Add(stud);
 
+            Db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -70,7 +76,7 @@ namespace StudentsManagerCoop.Controllers
             student.LastName = studentView.LastName;
             student.Patronymic = studentView.Patronymic;
 
-            db.SaveChanges();
+            Db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -78,9 +84,9 @@ namespace StudentsManagerCoop.Controllers
         public IActionResult Delete(StudentsViewModel studentView)
         {
             var student = GetStudent(studentView.Id);
-            db.Students.Remove(student);
+            Db.Students.Remove(student);
 
-            db.SaveChanges();
+            Db.SaveChanges();
             return RedirectToAction("Index");
         }
     }

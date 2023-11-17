@@ -3,7 +3,7 @@ using StudentsManager.DAL.Context;
 using StudentsManager.DAL.Entities;
 using StudentsManager.ViewModels;
 
-namespace StudentsManagerCoop.Controllers
+namespace StudentsManager.Controllers
 {
     public class StudentsController : Controller
     {
@@ -13,11 +13,11 @@ namespace StudentsManagerCoop.Controllers
             Db = db;
         }
 
-        private StudentsViewModel Convert(Student student)
+        private StudentViewModel Convert(Student student)
         {
             return student == null ?
-                new StudentsViewModel()
-                : new StudentsViewModel(student);
+                new StudentViewModel()
+                : new StudentViewModel(student);
         }
 
         private Student GetStudent(int id)
@@ -30,11 +30,11 @@ namespace StudentsManagerCoop.Controllers
             return student ?? new Student();
         }
 
-        private IEnumerable<StudentsViewModel> GetStudentsList()
+        private IEnumerable<StudentViewModel> GetStudentsList()
         {
             return Db.Students
                 .OrderBy(stud => stud.Id)
-                .Select(stud => new StudentsViewModel(stud));
+                .Select(stud => new StudentViewModel(stud));
         }
 
 
@@ -53,7 +53,7 @@ namespace StudentsManagerCoop.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(StudentsViewModel studView)
+        public IActionResult Create(StudentViewModel studView)
         {
             var stud = new Student
             {
@@ -68,7 +68,7 @@ namespace StudentsManagerCoop.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(StudentsViewModel studentView)
+        public IActionResult Edit(StudentViewModel studentView)
         {
             var student = GetStudent(studentView.Id);
 
@@ -81,7 +81,7 @@ namespace StudentsManagerCoop.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(StudentsViewModel studentView)
+        public IActionResult Delete(StudentViewModel studentView)
         {
             var student = GetStudent(studentView.Id);
             Db.Students.Remove(student);

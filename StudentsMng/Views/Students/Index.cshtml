@@ -1,11 +1,18 @@
-﻿@using StudentsManager.Models;
+﻿@using StudentsManager.ViewModels;
 @model IEnumerable<StudentsViewModel>
 
 <div>
-    <ol>
+    <div>
+        <a class="btn btn-success" asp-controller="Students" asp-action="Edit" asp-route-id="0">Create new student</a>
+    </div>
+
+    <ol class="list-group">
         @foreach (var stud in Model)
         {
-            <li>@stud.Name @stud.LastName @stud.Patronymic</li>
+            <li class="list-group-item">
+                <p class="stud-name">@stud.Name @stud.LastName @stud.Patronymic</p>
+                <a class="btn btn-primary" asp-controller="Students" asp-action="Edit" asp-route-id="@stud.Id">Edit</a>
+            </li>
         }
     </ol>
 </div>

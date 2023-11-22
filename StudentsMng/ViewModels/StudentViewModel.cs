@@ -7,8 +7,12 @@ public class StudentViewModel : NamedEntity
 {
     public string LastName { get; set; } = string.Empty;
     public string Patronymic { get; set; } = string.Empty;
+    public int GroupId { get; set; }
 
-    public StudentViewModel() { }
+    public string FullName { get => $"{LastName} {Name} {Patronymic}"; }
+
+    public StudentViewModel() 
+    { }
 
     public StudentViewModel(Student stud)
     {
@@ -16,5 +20,6 @@ public class StudentViewModel : NamedEntity
         Name = stud.Name;
         LastName = stud.LastName;
         Patronymic = stud.Patronymic;
+        GroupId = stud.StudentsGroupId;
     }
 }

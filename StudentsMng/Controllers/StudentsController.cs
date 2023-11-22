@@ -59,7 +59,8 @@ namespace StudentsManager.Controllers
             {
                 LastName = studView.LastName,
                 Name = studView.Name,
-                Patronymic = studView.Patronymic
+                Patronymic = studView.Patronymic,
+                StudentsGroupId = studView.GroupId,
             };
             Db.Students.Add(stud);
 
@@ -75,6 +76,7 @@ namespace StudentsManager.Controllers
             student.Name = studentView.Name;
             student.LastName = studentView.LastName;
             student.Patronymic = studentView.Patronymic;
+            student.StudentsGroupId = studentView.GroupId;
 
             Db.SaveChanges();
             return RedirectToAction("Index");

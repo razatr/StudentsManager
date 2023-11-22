@@ -8,8 +8,8 @@ public static class SeedData
     public static async Task Initialize(IServiceProvider serviceProvider)
     {
         using var context = serviceProvider.GetRequiredService<StudentsDB>();
-        await context.Database.EnsureDeletedAsync();
-        await context.Database.EnsureCreatedAsync();
+        //await context.Database.EnsureDeletedAsync();
+        //await context.Database.EnsureCreatedAsync();
 
         InitGroups(context);
         await context.SaveChangesAsync();

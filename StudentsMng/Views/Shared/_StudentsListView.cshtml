@@ -1,0 +1,11 @@
+﻿@model IEnumerable<StudentViewModel>
+
+<ol class="list-group">
+    @foreach (var stud in Model)
+    {
+        <li class="list-group-item">
+            <p class="stud-name">@stud.FullName</p>
+            <a class="btn btn-primary" asp-controller="Students" asp-action="Edit" asp-route-id="@stud.Id">Edit</a>
+        </li>
+    }
+</ol>

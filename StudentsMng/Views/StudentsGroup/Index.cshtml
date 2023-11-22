@@ -1,0 +1,26 @@
+﻿@model IQueryable<StudentsGroupViewModel>
+@{
+    ViewData["Title"] = "Groups";
+}
+
+<div>
+    @*<div>
+        <a class="btn btn-success" asp-controller="StudentsGroup" asp-action="Edit" asp-route-id="0">Create new group</a>
+    </div>*@
+
+    <ol class="list-group">
+        @foreach (var group in Model)
+        {
+            <li class="list-group-item">
+                <p>
+                    <span>@group.Name</span>: <span>@group.Description</span>
+                    <div class="group-students-list">
+                        @{
+                            await Html.RenderPartialAsync("_StudentsListView", group.StudentsList);
+                        }
+                    </div>
+                </p>
+            </li>
+        }
+    </ol>
+</div>

@@ -5,12 +5,7 @@
         <a class="btn btn-success" asp-controller="Students" asp-action="Edit" asp-route-id="0">Create new student</a>
     </div>
 
-    <ol class="list-group">
-        @foreach (var stud in Model)
-        {
-            <li class="list-group-item">
-                @{await Html.RenderPartialAsync("StudentPartialView", stud);}
-            </li>
-        }
-    </ol>
+    @{
+        await Html.RenderPartialAsync("_StudentsListView", Model);
+    }
 </div>

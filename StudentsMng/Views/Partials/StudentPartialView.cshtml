@@ -1,0 +1,4 @@
+﻿@model StudentViewModel
+
+<p class="stud-name">@Model.FullName</p>
+<a class="btn btn-primary" asp-controller="Students" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>

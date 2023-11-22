@@ -1,5 +1,4 @@
-﻿@using StudentsManager.ViewModels;
-@model IEnumerable<StudentsViewModel>
+﻿@model IEnumerable<StudentViewModel>
 
 <div>
     <div>
@@ -10,8 +9,7 @@
         @foreach (var stud in Model)
         {
             <li class="list-group-item">
-                <p class="stud-name">@stud.Name @stud.LastName @stud.Patronymic</p>
-                <a class="btn btn-primary" asp-controller="Students" asp-action="Edit" asp-route-id="@stud.Id">Edit</a>
+                @{await Html.RenderPartialAsync("StudentPartialView", stud);}
             </li>
         }
     </ol>

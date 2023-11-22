@@ -12,8 +12,10 @@ public class StudentsGroupViewModel : NamedEntity
     public StudentsGroupViewModel(StudentsGroup group)
     {
         Description = group.Description ?? "Без описания";
-        StudentsList = group.StudentsList
+        StudentsList = group.Students
             .Select(stud => new StudentViewModel(stud))
             .ToArray();
     }
+
+    public void Deconstruct(out int Id, out string Name) => (Id, Name) = (this.Id, this.Name);
 }

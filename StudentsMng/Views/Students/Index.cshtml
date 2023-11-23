@@ -1,16 +1,15 @@
 ﻿@model IEnumerable<StudentViewModel>
 
-<div>
-    <div>
-        <a class="btn btn-success" asp-controller="Students" asp-action="Edit" asp-route-id="0">Create new student</a>
-    </div>
-
-    <ol class="list-group">
-        @foreach (var stud in Model)
-        {
-            <li class="list-group-item">
-                @{await Html.RenderPartialAsync("StudentPartialView", stud);}
-            </li>
-        }
-    </ol>
-</div>
+<ul class="list-group">
+    <a class="btn btn-success" asp-controller="Students" asp-action="Edit" asp-route-id="0">Создать студента</a>
+    @foreach (var stud in Model)
+    {
+        <li class="list-group-item d-flex justify-content-between">
+            @stud.LastName @stud.Name @stud.Patronymic
+            <div>
+                <a class="btn btn-primary" asp-controller="Students" asp-action="Edit" asp-route-id="@stud.Id">Редактировать</a>
+                <a class="btn btn-danger" asp-controller="Students" asp-action="Delete" asp-route-id="@stud.Id">Удалить</a>
+            </div>
+        </li>
+    }
+</ul>

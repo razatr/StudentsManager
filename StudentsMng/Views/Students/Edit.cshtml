@@ -3,46 +3,37 @@
 @{
     var isEditMode = Model.Id != 0;
     var action = isEditMode ? "Edit" : "Create";
+    var actionText = isEditMode ? "Сохранить" : "Создать";
     ViewData["Title"] = action;
 }
 
 <form asp-controller="Students" asp-action="@action">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-    <div class="form-group">
-        <label asp-for="LastName" class="control-label"></label>
-        <input asp-for="LastName" class="form-control" placeholder="Enter last name..." />
-        <span asp-validation-for="LastName" class="text-danger"></span>
+    <div>
+        <label asp-for="LastName">Фамилия: </label>
+        <input asp-for="LastName" type="text" placeholder="Введите фамилию студента..." />
     </div>
 
-    <div class="form-group">
-        <label asp-for="Name" class="control-label"></label>
-        <input asp-for="Name" class="form-control" placeholder="Enter first name..." />
-        <span asp-validation-for="Name" class="text-danger"></span>
+    <div>
+        <label asp-for="Name">Имя: </label>
+        <input asp-for="Name" type="text" placeholder="Введите имя студента..." />
     </div>
 
-    <div class="form-group">
-        <label asp-for="Patronymic" class="control-label"></label>
-        <input asp-for="Patronymic" class="form-control" placeholder="Enter patronymic..." />
-        <span asp-validation-for="Patronymic" class="text-danger"></span>
+    <div>
+        <label asp-for="Patronymic">Отчество: </label>
+        <input asp-for="Patronymic" type="text" placeholder="Введите отчество студента..." />
     </div>
 
-    <div class="form-group">
-        <label asp-for="GroupId" class="control-label"></label>
-        <input asp-for="GroupId" class="form-control" disabled placeholder="Enter patronymic..." value="1"/>
+    <div>
+        <label asp-for="GroupId">Название группы: </label>
+        <input asp-for="GroupId" type="text" placeholder="Введите название группы студента..." />
     </div>
 
-    <div class="form-group">
-        @if (action == "Edit")
+    <div>
+        <button>@actionText </button>
+        <button asp-action="Index">Назад </button>
+        @if (isEditMode)
         {
-            <button class="btn btn-success">Edit</button>
-            <button class="btn btn-danger" asp-action="Delete" asp-route-Id="@Model.Id">Delete</button>
+            <button asp-action="Delete" asp-route-id=@Model.Id>Удалить </button>
         }
-        else
-        {
-            <button class="btn btn-success">Create</button>
-        }
-
-        <button class="btn btn-info" asp-action="Index">Back</button>
     </div>
 </form>

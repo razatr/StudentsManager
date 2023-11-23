@@ -71,6 +71,7 @@ namespace StudentsManager.Controllers
         [HttpPost]
         public IActionResult Edit(StudentViewModel studentView)
         {
+
             var student = GetStudent(studentView.Id);
 
             student.Name = studentView.Name;
@@ -82,10 +83,11 @@ namespace StudentsManager.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
         [HttpPost]
-        public IActionResult Delete(StudentViewModel studentView)
+        public IActionResult Delete(int id)
         {
-            var student = GetStudent(studentView.Id);
+            var student = GetStudent(id);
             Db.Students.Remove(student);
 
             Db.SaveChanges();

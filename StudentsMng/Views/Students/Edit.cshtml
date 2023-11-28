@@ -7,25 +7,25 @@
     ViewData["Title"] = action;
 }
 
-<form asp-controller="Students" asp-action="@action">
-    <div>
-        <label asp-for="LastName">Фамилия: </label>
-        <input asp-for="LastName" type="text" placeholder="Введите фамилию студента..." />
+<form asp-controller="Students" asp-action="@action" class="row g-3">
+    <div class="col-md-3">
+        <label asp-for="LastName" class="form-label">Фамилия: </label>
+        <input asp-for="LastName" type="text" class="form-control" placeholder="Введите фамилию студента..." />
     </div>
 
-    <div>
-        <label asp-for="Name">Имя: </label>
-        <input asp-for="Name" type="text" placeholder="Введите имя студента..." />
+    <div class="col-md-3">
+        <label asp-for="Name" class="form-label">Имя: </label>
+        <input asp-for="Name" type="text" class="form-control" placeholder="Введите имя студента..." />
     </div>
 
-    <div>
-        <label asp-for="Patronymic">Отчество: </label>
-        <input asp-for="Patronymic" type="text" placeholder="Введите отчество студента..." />
+    <div class="col-md-3">
+        <label asp-for="Patronymic" class="form-label">Отчество: </label>
+        <input asp-for="Patronymic" type="text" class="form-control" placeholder="Введите отчество студента..." />
     </div>
 
-    <div>
-        <label asp-for="GroupId">Название группы: </label>
-        <input asp-for="GroupId" type="text" placeholder="Введите название группы студента..." />
+    <div class="col-9">
+        <label class="form-label">Название группы: </label>
+        <vc:dropdown group-id=@Model.GroupId></vc:dropdown>
     </div>
 
     <div>

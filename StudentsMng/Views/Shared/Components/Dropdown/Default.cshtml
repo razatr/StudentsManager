@@ -1,0 +1,8 @@
+﻿@model IEnumerable<StudentsGroupViewModel>
+
+<select class="form-select">
+    @foreach (var group in Model)
+    {
+        <option>@group.Name</option>
+    }
+</select>

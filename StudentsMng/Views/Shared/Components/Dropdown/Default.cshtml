@@ -1,8 +1,15 @@
-﻿@model IEnumerable<StudentsGroupViewModel>
+﻿@model IEnumerable<GroupElementViewModel>
 
 <select class="form-select">
     @foreach (var group in Model)
     {
-        <option>@group.Name</option>
+        @if (group.Selected)
+        {
+            <option selected>@group.Name</option>
+        }
+        else
+        {
+            <option>@group.Name</option>
+        } 
     }
 </select>

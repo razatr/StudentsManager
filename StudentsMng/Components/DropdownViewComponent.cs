@@ -13,10 +13,10 @@ public class DropdownViewComponent : ViewComponent
         _db = db;
     }
 
-    public IViewComponentResult Invoke(string GroupId)
+    public async Task<IViewComponentResult> InvokeAsync(int groupId)
     {
-        var groups = _db.Students
-                .Select(g => new StudentsGroupViewModel { Id = g.Id, Name = g.Name })
+        var groups = _db.StudentsGroups
+                .Select(g => new GroupElementViewModel { Id = g.Id, Name = g.Name, Selected = groupId == g.Id })
                 .AsEnumerable();
 
         return View(groups);

@@ -18,7 +18,8 @@ public class DropdownViewComponent : ViewComponent
         var groups = _db.StudentsGroups
                 .Select(g => new GroupElementViewModel { Id = g.Id, Name = g.Name, Selected = groupId == g.Id })
                 .AsEnumerable();
+        var dropdown = new DropdownViewModel(groups);
 
-        return View(groups);
+        return View(dropdown);
     }
 }

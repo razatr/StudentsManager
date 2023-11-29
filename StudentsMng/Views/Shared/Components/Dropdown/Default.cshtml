@@ -1,15 +1,15 @@
-﻿@model IEnumerable<GroupElementViewModel>
+﻿@model DropdownViewModel
 
-<select class="form-select">
-    @foreach (var group in Model)
+<select asp-for="GroupId" class="form-select">
+    @foreach (var group in Model.Groups)
     {
         @if (group.Selected)
         {
-            <option selected>@group.Name</option>
+            <option value=@group.Id selected>@group.Name</option>
         }
         else
         {
-            <option>@group.Name</option>
+            <option value=@group.Id>@group.Name</option>
         } 
     }
 </select>

@@ -24,16 +24,16 @@
     </div>
 
     <div class="col-9">
-        <label class="form-label">Название группы: </label>
+        <label asp-for="GroupId" class="form-label">Название группы: </label>
         @await Component.InvokeAsync("Dropdown", new { groupId = Model.GroupId})
     </div>
 
     <div>
-        <button>@actionText </button>
-        <button asp-action="Index">Назад </button>
+        <button class="btn btn-success">@actionText </button>
+        <button asp-action="Index" class="btn btn-primary">Назад </button>
         @if (isEditMode)
         {
-            <button asp-action="Delete" asp-route-id=@Model.Id>Удалить </button>
+            <button asp-action="Delete" asp-route-id=@Model.Id class="btn btn-danger">Удалить </button>
         }
     </div>
 </form>

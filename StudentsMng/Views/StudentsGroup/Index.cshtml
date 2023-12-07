@@ -1,0 +1,23 @@
+﻿@model IEnumerable<StudentsGroupViewModel>
+
+<div style="margin-bottom: 20px;" class="text-center">
+    <h1>Список групп</h1>
+</div>
+
+<ul class="list-group">
+    @foreach (var group in Model)
+    {
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <h5>@group.Name </h5>
+                <div>@group.Description </div>
+            </div>
+            <div>
+                <a class="btn btn-primary" asp-controller="StudentsGroup" asp-action="Edit" asp-route-id="@group.Id">Редактировать</a>
+                <a class="btn btn-danger" asp-controller="StudentsGroup" asp-action="Delete" asp-route-id="@group.Id">Удалить</a>
+            </div>
+        </li>
+    }
+</ul>
+
+<a style="margin-top: 20px;" class="btn btn-success" asp-controller="StudentsGroup" asp-action="Edit" asp-route-id="0">Создать группу</a>

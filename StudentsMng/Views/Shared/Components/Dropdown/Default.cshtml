@@ -1,0 +1,15 @@
+﻿@model DropdownViewModel
+
+<select asp-for="GroupId" class="form-select">
+    @foreach (var group in Model.Groups)
+    {
+        @if (group.Selected)
+        {
+            <option value=@group.Id selected>@group.Name</option>
+        }
+        else
+        {
+            <option value=@group.Id>@group.Name</option>
+        } 
+    }
+</select>

@@ -33,20 +33,27 @@ public static class SeedData
                 LastName = "Рашидов",
                 Name = "Азат",
                 Patronymic = "Раушанович",
-                StudentsGroupId = Groups[rnd.Next(Groups.Count)].Id,
+                StudentsGroupId = 1,
             },
             new Student
             {
                 LastName = "Хайруллин",
                 Name = "Тахир",
                 Patronymic = "Рамилевич",
-                StudentsGroupId = Groups[rnd.Next(Groups.Count)].Id,
+                StudentsGroupId = 1,
             },
             new Student
             {
                 LastName = "Казютин",
                 Name = "Илья",
                 Patronymic = "Алексеевич",
+                StudentsGroupId = 1,
+            },
+            new Student
+            {
+                LastName = "Какой-то",
+                Name = "Чел",
+                Patronymic = "Челович",
                 StudentsGroupId = Groups[rnd.Next(Groups.Count)].Id,
             }
         );
@@ -59,10 +66,22 @@ public static class SeedData
             return;
         }
 
-        context.StudentsGroups.Add(new StudentsGroup
-        {
-            Name = "НМТмд-01-22",
-            Description = "Лучшая группа ФФМиЕН!"
-        });
+        context.StudentsGroups.AddRange(
+            new StudentsGroup
+            {
+                Name = "НМТмд-01-22",
+                Description = "Лучшая группа ФФМиЕН!"
+            },
+            new StudentsGroup
+            {
+                Name = "НМТмд-01-21",
+                Description = "Это кто?"
+            },
+            new StudentsGroup
+            {
+                Name = "НМТмд-01-20",
+                Description = "А это?"
+            }
+        );
     }
 }

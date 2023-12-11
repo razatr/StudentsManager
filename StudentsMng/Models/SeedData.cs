@@ -99,19 +99,23 @@ public static class SeedData
         context.Courses.AddRange(
             new Course
             {
-                Description = "Матан"
+                Name = "Матан",
+                Description = "Интегралы крута"
             },
             new Course
             {
-                Description = "Албебра"
+                Name = "Албебра",
+                Description = "Бебра Ала"
             },
             new Course
             {
-                Description = "Аналитическая геометрия"
+                Name = "Аналитическая геометрия",
+                Description = "Можно все представить головным мозгом"
             },
             new Course
             {
-                Description = "Топология"
+                Name = "Топология",
+                Description = "Хз че, но прикольно"
             }
         );
     }

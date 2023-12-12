@@ -12,7 +12,6 @@ public class DbStudentsGroupData : IStudentsGroupData
         _db = db;
     }
 
-
     public IEnumerable<StudentsGroup> GetAll() => _db.StudentsGroups.AsEnumerable();
     public StudentsGroup GetById(int id)
     {

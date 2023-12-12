@@ -14,14 +14,14 @@ public class DbStudentsData : IStudentsData
 
 
     public IEnumerable<Student> GetAll() => _db.Students.AsEnumerable();
-    public Student GetById(int id)
+    public Student? GetById(int id)
     {
         if (id == 0)
         {
             return new Student();
         }
 
-        return _db.Students.FirstOrDefault(stud => stud.Id == id) ?? new Student();
+        return _db.Students.FirstOrDefault(stud => stud.Id == id);
     }
 
     public void AddAndSave(Student stud)

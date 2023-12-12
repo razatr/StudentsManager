@@ -18,16 +18,20 @@
         <input asp-for="Description" type="text" class="form-control" placeholder="Введите описание группы..." />
     </div>
 
-    <div>
-        <ul class="list-group">
-            @foreach (var stud in Model.StudentsList)
-            {
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    @stud.LastName @stud.Name @stud.Patronymic
-                </li>
-            }
-        </ul>
-    </div>
+    @if (Model.StudentsList != null)
+    {
+        <div>
+            <ul class="list-group">
+            
+                    @foreach (var stud in Model.StudentsList)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            @stud.FullName
+                        </li>
+                    }
+            </ul>
+        </div>
+    }
 
     <div>
         <button class="btn btn-success">@actionText </button>

@@ -9,9 +9,11 @@ namespace StudentsManager.Controllers;
 public class StudentsGroupController : Controller
 {
     private readonly IDataManager<StudentsGroup> _groupManager;
-    public StudentsGroupController(IDataManager<StudentsGroup> GroupManager)
+    private readonly IDataManager<Student> _studentManager;
+    public StudentsGroupController(IDataManager<StudentsGroup> GroupManager, IDataManager<Student> studentManager)
     {
         _groupManager = GroupManager;
+        _studentManager = studentManager;
     }
 
     public IActionResult Index()
@@ -19,7 +21,7 @@ public class StudentsGroupController : Controller
         var groups = _groupManager
             .GetAll()
             .OrderBy(group => group.Id)
-            .Select(Mapper.Convert);
+            .Select(group => Mapper.Convert(group, Array.Empty<Student>()));
 
         return View(groups);
     }
@@ -27,7 +29,11 @@ public class StudentsGroupController : Controller
     public IActionResult Edit(int id)
     {
         var group = _groupManager.GetById(id);
-        var groupView = Mapper.Convert(group);
+        var students = _studentManager
+            .GetAll()
+            .Where(student => student.StudentsGroupId == group.Id)
+            .ToArray();
+        var groupView = Mapper.Convert(group, students);
         return View(groupView);
     }
 

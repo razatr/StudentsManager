@@ -32,19 +32,26 @@ public class Mapper
         };
     }
 
-    public static StudentsGroupViewModel Convert(StudentsGroup group)
+
+    public static StudentsGroupViewModel Convert(StudentsGroup group, Student[] students)
     {
-        return group is null ?
-            new StudentsGroupViewModel()
-            : new StudentsGroupViewModel
+        return new StudentsGroupViewModel
             {
                 Id = group.Id,
                 Name = group.Name ?? "Безымянная",
                 Description = group.Description ?? "Без описания",
-                StudentsList = group.Students
-                    .Select(Convert)
-                    .ToArray()
+                StudentsList = students.Select(Convert).ToArray()
             };
+    }
+
+    public static GroupElementViewModel Convert(StudentsGroup group, bool selected)
+    {
+        return new GroupElementViewModel
+        {
+            Id = group.Id,
+            Name = group.Name,
+            Selected = selected
+        };
     }
 
     public static StudentsGroup Convert(StudentsGroupViewModel groupView)
@@ -63,6 +70,7 @@ public class Mapper
 
         return group;
     }
+
 
     public static DayScheduleViewModel Convert(DayOfWeek day, ScheduleEntity[] courses)
     {

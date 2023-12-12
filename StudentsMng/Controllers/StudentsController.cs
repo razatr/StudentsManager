@@ -9,8 +9,8 @@ namespace StudentsManager.Controllers;
 
 public class StudentsController : Controller
 {
-    private readonly IStudentsData _studentsManager;
-    public StudentsController(IStudentsData StudentsManager)
+    private readonly IDataManager<Student> _studentsManager;
+    public StudentsController(IDataManager<Student> StudentsManager)
     {
         _studentsManager = StudentsManager;
     }

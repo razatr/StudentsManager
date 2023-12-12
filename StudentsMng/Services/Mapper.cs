@@ -8,14 +8,16 @@ public class Mapper
 {
     public static StudentViewModel Convert(Student stud)
     {
-        return new StudentViewModel
-        {
-            Id = stud.Id,
-            Name = stud.Name,
-            LastName = stud.LastName,
-            Patronymic = stud.Patronymic,
-            GroupId = stud.StudentsGroupId,
-        };
+        return stud is null ?
+            new StudentViewModel()
+            : new StudentViewModel
+            {
+                Id = stud.Id,
+                Name = stud.Name,
+                LastName = stud.LastName,
+                Patronymic = stud.Patronymic,
+                GroupId = stud.StudentsGroupId,
+            };
     }
 
     public static Student Convert(StudentViewModel studView)
@@ -30,9 +32,27 @@ public class Mapper
         };
     }
 
+    public static StudentsGroupViewModel Convert(StudentsGroup group)
+    {
+        return group is null ?
+            new StudentsGroupViewModel()
+            : new StudentsGroupViewModel
+            {
+                Id = group.Id,
+                Name = group.Name ?? "Безымянная",
+                Description = group.Description ?? "Без описания",
+                StudentsList = group.Students
+                    .Select(Convert)
+                    .ToArray()
+            };
+    }
+
     public static StudentsGroup Convert(StudentsGroupViewModel groupView)
     {
-        var studentsList = groupView.StudentsList.Select(Convert).ToHashSet();
+        var studentsList = groupView.StudentsList is null ?
+            new HashSet<Student>()
+            : groupView.StudentsList.Select(Convert).ToHashSet();
+
         var group = new StudentsGroup
         {
             Id = groupView.Id,
@@ -42,18 +62,6 @@ public class Mapper
         };
 
         return group;
-    }
-
-    public static StudentsGroupViewModel Convert(StudentsGroup group)
-    {
-        return new StudentsGroupViewModel
-        {
-            Name = group.Name ?? "Безымянная",
-            Description = group.Description ?? "Без описания",
-            StudentsList = group.Students
-            .Select(Convert)
-            .ToArray()
-        };
     }
 
     public static DayScheduleViewModel Convert(DayOfWeek day, ScheduleEntity[] courses)

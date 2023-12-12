@@ -8,8 +8,8 @@ namespace StudentsManager.Controllers;
 
 public class StudentsGroupController : Controller
 {
-    private readonly IStudentsGroupData _groupManager;
-    public StudentsGroupController(IStudentsGroupData GroupManager)
+    private readonly IDataManager<StudentsGroup> _groupManager;
+    public StudentsGroupController(IDataManager<StudentsGroup> GroupManager)
     {
         _groupManager = GroupManager;
     }

@@ -1,16 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StudentsManager.DAL.Context;
+using StudentsManager.DAL.Entities;
 using StudentsManager.Interfaces;
-using StudentsManager.Services;
 using StudentsManager.ViewModels;
 
 namespace StudentsManager.Components;
 
 public class DropdownViewComponent : ViewComponent
 {
-    private readonly IStudentsGroupData _groupManager;
+    private readonly IDataManager<StudentsGroup> _groupManager;
 
-    public DropdownViewComponent(IStudentsGroupData GroupManager)
+    public DropdownViewComponent(IDataManager<StudentsGroup> GroupManager)
     {
         _groupManager = GroupManager;
     }

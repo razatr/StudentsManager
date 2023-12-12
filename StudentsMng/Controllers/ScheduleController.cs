@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StudentsManager.DAL.Entities;
 using StudentsManager.Interfaces;
 using StudentsManager.Services;
 using StudentsManager.ViewModels.Schedule;
@@ -8,8 +9,8 @@ namespace StudentsManager.Controllers;
 public class ScheduleController : Controller
 {
     private readonly IScheduleData _ScheduleManager;
-    private readonly IStudentsGroupData _StudentsGroupManager;
-    public ScheduleController(IScheduleData scheduleManager, IStudentsGroupData studentsGroupManager)
+    private readonly IDataManager<StudentsGroup> _StudentsGroupManager;
+    public ScheduleController(IScheduleData scheduleManager, IDataManager<StudentsGroup> studentsGroupManager)
     {
         _ScheduleManager = scheduleManager;
         _StudentsGroupManager = studentsGroupManager;

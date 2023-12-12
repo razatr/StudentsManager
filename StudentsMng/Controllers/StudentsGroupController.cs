@@ -1,24 +1,88 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StudentsManager.DAL.Context;
+using StudentsManager.DAL.Entities;
+using StudentsManager.Interfaces;
 using StudentsManager.ViewModels;
 
-namespace StudentsManager.Controllers
+namespace StudentsManager.Controllers;
+
+public class StudentsGroupController : Controller
 {
-    public class StudentsGroupController : Controller
+    private readonly IStudentsGroupData _groupManager;
+    public StudentsGroupController(IStudentsGroupData GroupManager)
     {
-        public StudentsDB Db { get; set; }
-        public StudentsGroupController(StudentsDB db)
-        {
-            Db = db;
-        }
+        _groupManager = GroupManager;
+    }
 
-        public IActionResult Index()
-        {
-            var groups = Db.StudentsGroups
-                .OrderBy(group => group.Id)
-                .Select(group => new StudentsGroupViewModel(group));
+    private StudentsGroup Convert(StudentsGroupViewModel groupView)
+    {
+        var studentsList = groupView.StudentsList is null ? new HashSet<Student>()
+            : groupView.StudentsList
+                .Select(stud => new Student
+                {
+                    Id = stud.Id,
+                    Name = stud.Name,
+                    LastName = stud.LastName,
+                    Patronymic = stud.Patronymic,
+                    StudentsGroupId = stud.GroupId,
+                })
+                .ToHashSet();
 
-            return View(groups);
-        }
+        var group = new StudentsGroup
+        {
+            Id = groupView.Id,
+            Name = groupView.Name,
+            Description = groupView.Description,
+            Students = studentsList
+        };
+
+        return group;
+    }
+
+    private StudentsGroupViewModel Convert(StudentsGroup group)
+    {
+        return group is null ? new StudentsGroupViewModel() : new StudentsGroupViewModel(group);
+    }
+
+    public IActionResult Index()
+    {
+        var groups = _groupManager
+            .GetAll()
+            .OrderBy(group => group.Id)
+            .Select(Convert);
+
+        return View(groups);
+    }
+
+    public IActionResult Edit(int id)
+    {
+        var group = _groupManager.GetById(id);
+        var groupView = Convert(group);
+        return View(groupView);
+    }
+
+    [HttpPost]
+    public IActionResult Edit(StudentsGroupViewModel groupView)
+    {
+        var group = Convert(groupView);
+        _groupManager.UpdateAndSave(group);
+
+        return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public IActionResult Create(StudentsGroupViewModel groupView)
+    {
+        var group = Convert(groupView);
+        _groupManager.AddAndSave(group);
+
+        return RedirectToAction("Index");
+    }
+
+    [HttpGet]
+    [HttpPost]
+    public IActionResult Delete(int id)
+    {
+        _groupManager.RemoveAndSave(id);
+        return RedirectToAction("Index");
     }
 }

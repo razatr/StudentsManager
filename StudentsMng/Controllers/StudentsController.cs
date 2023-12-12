@@ -1,97 +1,82 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StudentsManager.DAL.Context;
 using StudentsManager.DAL.Entities;
+using StudentsManager.Interfaces;
 using StudentsManager.ViewModels;
 
-namespace StudentsManager.Controllers
+namespace StudentsManager.Controllers;
+
+public class StudentsController : Controller
 {
-    public class StudentsController : Controller
+    private readonly IStudentsData _studentsManager;
+    public StudentsController(IStudentsData StudentsManager)
     {
-        public StudentsDB Db { get; set; }
-        public StudentsController(StudentsDB db) 
+        _studentsManager = StudentsManager;
+    }
+
+    private StudentViewModel Convert(Student student)
+    {
+        return student == null ?
+            new StudentViewModel()
+            : new StudentViewModel(student);
+    }
+
+    private Student Convert(StudentViewModel studView)
+    {
+        if (studView is null)
         {
-            Db = db;
+            return new Student();
         }
 
-        private StudentViewModel Convert(Student student)
+        return new Student
         {
-            return student == null ?
-                new StudentViewModel()
-                : new StudentViewModel(student);
-        }
+            LastName = studView.LastName,
+            Name = studView.Name,
+            Patronymic = studView.Patronymic,
+            StudentsGroupId = studView.GroupId,
+        };
+    }
 
-        private Student GetStudent(int id)
-        {
-            if (id == 0) {
-                return new Student();
-            }
-            
-            var student = Db.Students.FirstOrDefault(stud => stud.Id == id);
-            return student ?? new Student();
-        }
+    public IActionResult Index()
+    {
+        var studList = _studentsManager
+            .GetAll()
+            .OrderBy(stud => stud.Id)
+            .Select(Convert);
+        return View(studList);
+    }
 
-        private IEnumerable<StudentViewModel> GetStudentsList()
-        {
-            return Db.Students
-                .OrderBy(stud => stud.Id)
-                .Select(stud => new StudentViewModel(stud));
-        }
+    public IActionResult Edit(int id)
+    {
+        var student = _studentsManager.GetById(id);
+        var studentView = Convert(student);
 
+        return View(studentView);
+    }
 
-        public IActionResult Index()
-        {
-            var studList = GetStudentsList();
-            return View(studList);
-        }
+    [HttpPost]
+    public IActionResult Create(StudentViewModel studView)
+    {
+        var stud = Convert(studView);
+        _studentsManager.AddAndSave(stud);
 
-        public IActionResult Edit(int id)
-        {
-            var student = GetStudent(id);
-            var studentView = Convert(student);
+        return RedirectToAction("Index");
+    }
 
-            return View(studentView);
-        }
+    [HttpPost]
+    public IActionResult Edit(StudentViewModel studView)
+    {
+        var student = Convert(studView);
+        _studentsManager.UpdateAndSave(student);
 
-        [HttpPost]
-        public IActionResult Create(StudentViewModel studView)
-        {
-            var stud = new Student
-            {
-                LastName = studView.LastName,
-                Name = studView.Name,
-                Patronymic = studView.Patronymic,
-                StudentsGroupId = studView.GroupId,
-            };
-            Db.Students.Add(stud);
+        return RedirectToAction("Index");
+    }
 
-            Db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+    [HttpGet]
+    [HttpPost]
+    public IActionResult Delete(int id)
+    {
+        _studentsManager.RemoveAndSave(id);
 
-        [HttpPost]
-        public IActionResult Edit(StudentViewModel studentView)
-        {
-
-            var student = GetStudent(studentView.Id);
-
-            student.Name = studentView.Name;
-            student.LastName = studentView.LastName;
-            student.Patronymic = studentView.Patronymic;
-            student.StudentsGroupId = studentView.GroupId;
-
-            Db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        [HttpGet]
-        [HttpPost]
-        public IActionResult Delete(int id)
-        {
-            var student = GetStudent(id);
-            Db.Students.Remove(student);
-
-            Db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        return RedirectToAction("Index");
     }
 }

@@ -1,24 +1,24 @@
 using Microsoft.EntityFrameworkCore;
-using StudentsManager.Models;
 using StudentsManager.DAL.Context;
+using StudentsManager.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
 var db_connection_str = builder.Configuration.GetConnectionString("default");
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<StudentsDB>(
-    options => {
-        options.UseSqlServer(db_connection_str);
-    });
+services.AddDbContext<StudentsDB>(
+    options => options.UseSqlServer(db_connection_str)
+);
+services.RegisterServices();
+services.AddControllersWithViews();
 
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider;
-
-    await SeedData.Initialize(services);
+    var serviceProvider = scope.ServiceProvider;
+    await SeedData.Initialize(serviceProvider);
 }
 
 // Configure the HTTP request pipeline.

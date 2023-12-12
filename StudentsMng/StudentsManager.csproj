@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Views\Новая папка\**" />
-    <Content Remove="Views\Новая папка\**" />
-    <EmbeddedResource Remove="Views\Новая папка\**" />
-    <None Remove="Views\Новая папка\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\StudentsManager.DAL\StudentsManager.DAL.csproj" />
     <ProjectReference Include="..\StudentsManager.Interfaces\StudentsManager.Interfaces.csproj" />
     <ProjectReference Include="..\StudentsManager.Services\StudentsManager.Services.csproj" />

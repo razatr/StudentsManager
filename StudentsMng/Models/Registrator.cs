@@ -1,4 +1,4 @@
-﻿using StudentsManager.AutoMappers;
+﻿//using StudentsManager.AutoMappers;
 using StudentsManager.Interfaces;
 using StudentsManager.Services;
 
@@ -11,7 +11,7 @@ internal static class Registrator
         services.AddScoped<IStudentsData, DbStudentsData>();
         services.AddScoped<IStudentsGroupData, DbStudentsGroupData>();
 
-        services.AddAutoMapper(typeof(StudentsAutoMapper));
+        //services.AddAutoMapper(typeof(StudentsAutoMapper));
 
         return services;
     }

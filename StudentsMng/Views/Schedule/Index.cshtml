@@ -1,0 +1,27 @@
+﻿@model StudentsManager.ViewModels.Schedule.WeekScheduleViewModel
+
+<p>Group name: @Model.GroupName</p>
+
+<table>
+    <tbody>
+        @foreach (var daySchedule in Model.Schedule)
+        {
+            <tr>@daySchedule.Day</tr>
+            <tr>
+                @foreach (var course in daySchedule.Courses)
+                {
+                    @if (course is null)
+                    {
+                        <td></td>
+                        <td></td>
+                    }
+                    else
+                    {
+                        <td>@course.Name</td>
+                        <td>@course.Description</td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>

@@ -10,7 +10,4 @@ public class Student : NamedEntity
     public string Patronymic { get; set; } = string.Empty;
 
     public int StudentsGroupId { get; set; }
-
-    [ForeignKey(nameof(StudentsGroupId))]
-    public StudentsGroup StudentsGroup { get; set; }
 }

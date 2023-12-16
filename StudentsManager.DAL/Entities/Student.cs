@@ -8,6 +8,6 @@ public class Student : NamedEntity
     public string LastName { get; set; } = string.Empty;
 
     public string Patronymic { get; set; } = string.Empty;
-
+    [ForeignKey(nameof(StudentsGroup))]
     public int StudentsGroupId { get; set; }
 }

@@ -1,0 +1,40 @@
+﻿@model StudentsGroupViewModel
+
+@{
+    var isEditMode = Model.Id != 0;
+    var action = isEditMode ? "Edit" : "Create";
+    var actionText = isEditMode ? "Сохранить" : "Создать";
+    ViewData["Title"] = action;
+}
+
+<form asp-controller="StudentsGroup" asp-action="@action" class="row g-3">
+    <div class="col-md-3">
+        <label asp-for="Name" class="form-label">Название: </label>
+        <input asp-for="Name" type="text" class="form-control" placeholder="Введите название группы..." />
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="Description" class="form-label">Описание: </label>
+        <input asp-for="Description" type="text" class="form-control" placeholder="Введите описание группы..." />
+    </div>
+
+    <div>
+        <ul class="list-group">
+            @foreach (var stud in Model.StudentsList)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    @stud.LastName @stud.Name @stud.Patronymic
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div>
+        <button class="btn btn-success">@actionText </button>
+        <button asp-action="Index" class="btn btn-primary">Назад </button>
+        @if (isEditMode)
+        {
+            <button asp-action="Delete" asp-route-id=@Model.Id class="btn btn-danger">Удалить </button>
+        }
+    </div>
+</form>

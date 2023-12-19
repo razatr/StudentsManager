@@ -28,11 +28,12 @@ public class StudentsGroupController : Controller
 
     public IActionResult Edit(int id)
     {
+        if (id == 0)
+        {
+            return View(new StudentsGroupViewModel());
+        }
         var group = _groupManager.GetById(id);
-        var students = _studentManager
-            .GetAll()
-            .Where(student => student.StudentsGroupId == group.Id)
-            .ToArray();
+        var students = group.Students.ToArray();
         var groupView = Mapper.Convert(group, students);
         return View(groupView);
     }

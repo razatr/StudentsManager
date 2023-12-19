@@ -1,80 +1,18 @@
-﻿using StudentsManager.Interfaces;
-using StudentsManager.DAL.Entities;
+﻿using StudentsManager.DAL.Entities;
 using StudentsManager.DAL.Context;
+using StudentsManager.Services.Base;
 
 namespace StudentsManager.Services;
 
-public class DbStudentsGroupData : IStudentsGroupData
+public class DbStudentsGroupData : DataManager<StudentsGroup>
 {
-    private readonly StudentsDB _db;
-    public DbStudentsGroupData(StudentsDB db)
+    public DbStudentsGroupData(StudentsDB db) : base(db, db.StudentsGroups) { }
+
+    protected override void Update(StudentsGroup group, StudentsGroup source)
     {
-        _db = db;
-    }
-
-
-    public IEnumerable<StudentsGroup> GetAll() => _db.StudentsGroups.AsEnumerable();
-    public StudentsGroup GetById(int id)
-    {
-        if (id == 0)
-        {
-            return new StudentsGroup();
-        }
-
-        return _db.StudentsGroups.FirstOrDefault(group => group.Id == id) ?? new StudentsGroup();
-    }
-
-    public void AddAndSave(StudentsGroup group)
-    {
-        if (group is null)
-        {
-            throw new ArgumentNullException(nameof(group));
-        }
-        if (group.Id != 0)
-        {
-            throw new ArgumentException("Invalid Id property of StudentsGroup to add.");
-        }
-
-        _db.StudentsGroups.Add(group);
-        _db.SaveChanges();
-    }
-
-    public void UpdateAndSave(StudentsGroup data)
-    {
-        if (data is null)
-        {
-            throw new ArgumentNullException(nameof(data));
-        }
-
-        var group = GetById(data.Id);
-        if (group is null)
-        {
-            // Надо бы добавить логирование
-            return;
-        }
-
-        group.Name = data.Name;
-        group.Description = data.Description;
-        group.Students = data.Students;
-
-        _db.SaveChanges();
-    }
-
-    public void RemoveAndSave(int id)
-    {
-        if (id == 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(id));
-        }
-
-        var group = GetById(id);
-        if (group is null)
-        {
-            // логирование
-            return;
-        }
-
-        _db.StudentsGroups.Remove(group);
-        _db.SaveChanges();
+        group.Name = source.Name;
+        group.Description = source.Description;
+        group.Students = source.Students;
+        group.Courses = source.Courses;
     }
 }

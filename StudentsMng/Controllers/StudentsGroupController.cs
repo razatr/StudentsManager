@@ -1,46 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentsManager.DAL.Entities;
 using StudentsManager.Interfaces;
+using StudentsManager.Services;
 using StudentsManager.ViewModels;
 
 namespace StudentsManager.Controllers;
 
 public class StudentsGroupController : Controller
 {
-    private readonly IStudentsGroupData _groupManager;
-    public StudentsGroupController(IStudentsGroupData GroupManager)
+    private readonly IDataManager<StudentsGroup> _groupManager;
+    private readonly IDataManager<Student> _studentManager;
+    public StudentsGroupController(IDataManager<StudentsGroup> GroupManager, IDataManager<Student> studentManager)
     {
         _groupManager = GroupManager;
-    }
-
-    private StudentsGroup Convert(StudentsGroupViewModel groupView)
-    {
-        var studentsList = groupView.StudentsList is null ? new HashSet<Student>()
-            : groupView.StudentsList
-                .Select(stud => new Student
-                {
-                    Id = stud.Id,
-                    Name = stud.Name,
-                    LastName = stud.LastName,
-                    Patronymic = stud.Patronymic,
-                    StudentsGroupId = stud.GroupId,
-                })
-                .ToHashSet();
-
-        var group = new StudentsGroup
-        {
-            Id = groupView.Id,
-            Name = groupView.Name,
-            Description = groupView.Description,
-            Students = studentsList
-        };
-
-        return group;
-    }
-
-    private StudentsGroupViewModel Convert(StudentsGroup group)
-    {
-        return group is null ? new StudentsGroupViewModel() : new StudentsGroupViewModel(group);
+        _studentManager = studentManager;
     }
 
     public IActionResult Index()
@@ -48,7 +21,7 @@ public class StudentsGroupController : Controller
         var groups = _groupManager
             .GetAll()
             .OrderBy(group => group.Id)
-            .Select(Convert);
+            .Select(group => Mapper.Convert(group, Array.Empty<Student>()));
 
         return View(groups);
     }
@@ -56,24 +29,26 @@ public class StudentsGroupController : Controller
     public IActionResult Edit(int id)
     {
         var group = _groupManager.GetById(id);
-        var groupView = Convert(group);
+        var students = _studentManager
+            .GetAll()
+            .Where(student => student.StudentsGroupId == group.Id)
+            .ToArray();
+        var groupView = Mapper.Convert(group, students);
         return View(groupView);
     }
 
     [HttpPost]
     public IActionResult Edit(StudentsGroupViewModel groupView)
     {
-        var group = Convert(groupView);
-        _groupManager.UpdateAndSave(group);
-
-        return RedirectToAction("Index");
-    }
-
-    [HttpPost]
-    public IActionResult Create(StudentsGroupViewModel groupView)
-    {
-        var group = Convert(groupView);
-        _groupManager.AddAndSave(group);
+        var group = Mapper.Convert(groupView);
+        if (group.Id <= 0)
+        {
+            _groupManager.AddAndSave(group);
+        }
+        else
+        {
+            _groupManager.UpdateAndSave(group);
+        }
 
         return RedirectToAction("Index");
     }

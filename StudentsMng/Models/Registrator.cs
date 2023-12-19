@@ -1,4 +1,5 @@
 ﻿//using StudentsManager.AutoMappers;
+using StudentsManager.DAL.Entities;
 using StudentsManager.Interfaces;
 using StudentsManager.Services;
 
@@ -8,8 +9,8 @@ internal static class Registrator
 {
     public static IServiceCollection RegisterServices(this IServiceCollection services)
     {
-        services.AddScoped<IStudentsData, DbStudentsData>();
-        services.AddScoped<IStudentsGroupData, DbStudentsGroupData>();
+        services.AddScoped<IDataManager<Student>, DbStudentsData>();
+        services.AddScoped<IDataManager<StudentsGroup>, DbStudentsGroupData>();
 
         //services.AddAutoMapper(typeof(StudentsAutoMapper));
 

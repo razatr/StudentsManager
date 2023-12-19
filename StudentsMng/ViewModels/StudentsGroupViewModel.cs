@@ -11,6 +11,7 @@ public class StudentsGroupViewModel : NamedEntity
 
     public StudentsGroupViewModel(StudentsGroup group)
     {
+        Id = group.Id;
         Name = group.Name ?? "Безымянная";
         Description = group.Description ?? "Без описания";
         StudentsList = group.Students

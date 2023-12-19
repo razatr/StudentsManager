@@ -2,12 +2,11 @@
 
 @{
     var isEditMode = Model.Id != 0;
-    var action = isEditMode ? "Edit" : "Create";
     var actionText = isEditMode ? "Сохранить" : "Создать";
-    ViewData["Title"] = action;
+    ViewData["Title"] = actionText;
 }
 
-<form asp-controller="StudentsGroup" asp-action="@action" class="row g-3">
+<form asp-controller="StudentsGroup" asp-action="Edit" class="row g-3">
     <div class="col-md-3">
         <label asp-for="Name" class="form-label">Название: </label>
         <input asp-for="Name" type="text" class="form-control" placeholder="Введите название группы..." />

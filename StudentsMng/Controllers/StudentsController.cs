@@ -1,39 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentsManager.DAL.Entities;
 using StudentsManager.Interfaces;
+using StudentsManager.Services;
 using StudentsManager.ViewModels;
+using System.Text.RegularExpressions;
 
 namespace StudentsManager.Controllers;
 
 public class StudentsController : Controller
 {
-    private readonly IStudentsData _studentsManager;
-    public StudentsController(IStudentsData StudentsManager)
+    private readonly IDataManager<Student> _studentsManager;
+    public StudentsController(IDataManager<Student> StudentsManager)
     {
         _studentsManager = StudentsManager;
-    }
-
-    private StudentViewModel Convert(Student student)
-    {
-        return student == null ?
-            new StudentViewModel()
-            : new StudentViewModel(student);
-    }
-
-    private Student Convert(StudentViewModel studView)
-    {
-        if (studView is null)
-        {
-            return new Student();
-        }
-
-        return new Student
-        {
-            LastName = studView.LastName,
-            Name = studView.Name,
-            Patronymic = studView.Patronymic,
-            StudentsGroupId = studView.GroupId,
-        };
     }
 
     public IActionResult Index()
@@ -41,32 +20,30 @@ public class StudentsController : Controller
         var studList = _studentsManager
             .GetAll()
             .OrderBy(stud => stud.Id)
-            .Select(Convert);
+            .Select(Mapper.Convert);
         return View(studList);
     }
 
     public IActionResult Edit(int id)
     {
         var student = _studentsManager.GetById(id);
-        var studentView = Convert(student);
+        var studentView = Mapper.Convert(student);
 
         return View(studentView);
     }
 
     [HttpPost]
-    public IActionResult Create(StudentViewModel studView)
-    {
-        var stud = Convert(studView);
-        _studentsManager.AddAndSave(stud);
-
-        return RedirectToAction("Index");
-    }
-
-    [HttpPost]
     public IActionResult Edit(StudentViewModel studView)
     {
-        var student = Convert(studView);
-        _studentsManager.UpdateAndSave(student);
+        var stud = Mapper.Convert(studView);
+        if (stud.Id <= 0)
+        {
+            _studentsManager.AddAndSave(stud);
+        }
+        else
+        {
+            _studentsManager.UpdateAndSave(stud);
+        }
 
         return RedirectToAction("Index");
     }

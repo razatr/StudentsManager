@@ -2,12 +2,11 @@
 
 @{
     var isEditMode = Model.Id != 0;
-    var action = isEditMode ? "Edit" : "Create";
     var actionText = isEditMode ? "Сохранить" : "Создать";
-    ViewData["Title"] = action;
+    ViewData["Title"] = actionText;
 }
 
-<form asp-controller="Students" asp-action="@action" class="row g-3">
+<form asp-controller="Students" asp-action="Edit" asp-route-id="@Model.Id" class="row g-3">
     <div class="col-md-3">
         <label asp-for="LastName" class="form-label">Фамилия: </label>
         <input asp-for="LastName" type="text" class="form-control" placeholder="Введите фамилию студента..." />
@@ -25,7 +24,7 @@
 
     <div class="col-9">
         <label asp-for="GroupId" class="form-label">Название группы: </label>
-        @await Component.InvokeAsync("Dropdown", new { groupId = Model.GroupId})
+        @await Component.InvokeAsync("Dropdown", Model.GroupId)
     </div>
 
     <div>
@@ -33,7 +32,7 @@
         <button asp-action="Index" class="btn btn-primary">Назад </button>
         @if (isEditMode)
         {
-            <button asp-action="Delete" asp-route-id=@Model.Id class="btn btn-danger">Удалить </button>
+            <button asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Удалить </button>
         }
     </div>
 </form>
